@@ -153,3 +153,4 @@ cython_debug/
 *.jpg
 *.png
 *.jpeg
+migrations/
