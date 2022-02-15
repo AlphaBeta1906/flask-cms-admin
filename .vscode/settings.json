@@ -1,0 +1,12 @@
+{
+    "autoDocstring.docstringFormat": "numpy",
+    "editor.minimap.enabled": false,
+    "editor.selectionClipboard": false,
+    "python.pythonPath": "/home/jim/anaconda3/envs/dipoleDisplay",
+    "window.zoomLevel": 1,
+    "terminal.integrated.rendererType": "dom",
+    "python.linting.pylintUseMinimalCheckers": false,
+    "python.linting.enabled" : true,
+    "python.linting.lintOnSave" : true
+
+}

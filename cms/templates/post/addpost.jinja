@@ -1,0 +1,10 @@
+{% extends "./base.jinja" %}
+{% block title %} Add post {% endblock %}
+{% block content %}
+    <div class="card shadow container my-3">
+        <h2 class="py-2">Create post</h2>
+        <form method="post" accept="UTF-8" enctype="multipart/form-data" >
+            {% include "./post/postform.jinja"%}
+        </form>
+    </div>
+{% endblock %}

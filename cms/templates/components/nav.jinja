@@ -1,0 +1,27 @@
+<nav
+style="color:#2c5feb;background-color: rgb(241, 241, 243);"
+class="navbar navbar-expand-lg navbar-light shadow-sm {#"d-none d-md-block" if  current_user.is_authenticated #} ">
+<div class="container-fluid">
+  <a
+    class="navbar-brand"
+    href=""
+  >
+  Logo
+</a>
+  <div class="order-3 dual-collapse2 ml-auto">
+    <ul class="navbar-nav ml-auto">
+      {% if current_user.is_authenticated and current_user.role == "admin" %}
+        <li class="nav-item  left-16 ">
+          <a class=" btn btn-primary d-inline  mb-3 mr-3 " href="{{"post.add_blog"|url}} " id="new-blog">
+            New blog
+          </a>
+          <a class="nav-link hvr-grow  d-inline px-3"
+            href=" {{"admin.dashboard"|url}} ">
+            <img src="{{current_user.email|avatar}}" alt=" {{current_user.username}} " class="rounded-circle" srcset="">
+          </a>
+        </li>
+      {% endif %}
+    </ul>
+  </div>
+</div>
+</nav>

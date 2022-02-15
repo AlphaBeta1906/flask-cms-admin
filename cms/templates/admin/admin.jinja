@@ -1,0 +1,173 @@
+{% extends "./base.jinja" %}
+{% block title %}Admin page{% endblock %}
+{% block content %}
+{% set thead = ["id","Title","Is draft","Author","Date created","Edit/delete"] %}
+<script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap5.min.js" crossorigin="anonymous"></script>
+<h2 class="text-center">
+    Admin dashboard
+</h2>
+<div class="my-5">
+  <a href="{{url_for("auth.logout")}}" class="btn btn-danger">
+    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+    Logout
+  </a>
+  <div class="card h-75 w-100 container shadow overflow-auto mb-5">
+      <h3 class="text-center pt-3">
+          Blogs
+      </h3>
+      <p>
+        Number of blogs: {{blogs|length}}
+      </p>
+      <table class="table table-stripped table-hover">
+          <thead>
+            <tr>
+              {% for header in thead %}
+                <th scope="col" style="cursor: pointer;">{{header}}</th>
+              {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for blog in blogs %}
+              <tr id="data-{{blog.id}}">
+                <th scope="row">{{blog.id}}</th>
+                <td>
+                  <a href="{{"post.read"|url(id=blog.id)}}" class="text-decoration-none">
+                    {{blog.title}}
+                  </a>
+                </td>
+                <td>{{blog.hidden}}</td>
+                <td>{{blog.author}}</td>
+                <td>{{blog.date.strftime("%d/%m/%Y %H:%M:%S")}}</td>
+                <td>
+                    <div class="d-inline p-2">
+                        <a class="btn btn-primary" href="{{"post.edit_blog"|url(id=blog.id)}}">
+                          <i class="fa-solid fa-pen-to-square"></i>
+                          Edit
+                        </a>
+                        <button class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#Modal{{blog.id}}">
+                          <i class="fa-solid fa-trash-can"></i>
+                          Delete
+                        </button>
+                    </div>
+                </td>
+              </tr>
+              <div class="modal fade" id="Modal{{blog.id}}" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Delete confirmation</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      Are you sure you want to delete blog "{{blog.title}}"?
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="button"  id="{{blog.id}}" class="btn btn-danger delete" data-bs-dismiss="modal">Delete</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card h-75 w-100 container shadow overflow-auto mb-5">
+        <h3 class="text-center pt-3">
+            Tags
+        </h3>
+        <form method="post" action="" accept-charset="utf-8" enctype="multipart/form-data" class="py-3">
+          {% include "./components/error.jinja"%}
+          {% for form in forms if form.id != "csrf_token" %}
+              <div class="mb-3">
+                  <label class="form-label">
+                      {{form.label if form.id != "submit" and form.id != "add" and form.id != "hidden" else ""}}
+                  </label> 
+                  {{form}}
+              </div>
+          {% endfor %}
+        </form>
+        <table class="table table-stripped table-hover">
+          <thead>
+            <tr>
+              <th scope="col">id</th>
+              <th scope="col">Tag name</th>
+              <th scope="col">Description</th>
+              <th scope="col">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for tag in tags %}
+              <tr id="data-tag-{{tag.id}}">
+                <th scope="row">{{tag.id}}</th>
+                <td>{{tag.tag}}</td>
+                <td>{{tag.description}}</td>
+                <td>
+                  <div class="d-inline p-2">
+                    <a class="btn btn-primary" href="{{"admin.update_tag"|url(id=tag.id)}}">
+                      <i class="fa-solid fa-pen-to-square"></i>
+                      Edit
+                    </a>                    
+                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#ModalTag{{tag.id}}">
+                      <i class="fa-solid fa-trash-can"></i>
+                      Delete
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <div class="modal fade" id="ModalTag{{tag.id}}" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Delete confirmation</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      Are you sure you want to delete tag "{{tag.tag}}"?
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="button"  id="tag-{{tag.id}}" class="btn btn-danger delete-tag" data-bs-dismiss="modal">Delete</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </tbody>
+          </table>
+        </div>      
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.25.0/axios.min.js" integrity="sha512-/Q6t3CASm04EliI1QyIDAA/nDo9R8FQ/BULoUFyN4n/BDdyIxeH7u++Z+eobdmr11gG5D/6nPFyDlnisDwhpYA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+  $(document).ready(function() {
+    $("table").DataTable();
+  } );
+
+  $(".delete").on("click",function(e){
+    var id = e.currentTarget.id
+    axios
+    .delete(`/delete_blog/${id}`)
+    .then(function(data){
+      console.log(data.data)
+      $(`#data-${id}`).remove()
+    }).catch(function(err){
+      console.log(err)
+    })
+  })
+
+  $(".delete-tag").on("click",function(e){
+    var id = e.currentTarget.id
+    axios
+    .delete(`/delete_tag/${id.split("-")[1]}`)
+    .then(function(data){
+      console.log(data.data)
+      console.log($(`#${id}`).length)
+      $(`#data-${id}`).remove()
+    }).catch(function(err){
+      console.log(err)
+    })
+  })
+</script>
+{% endblock %}

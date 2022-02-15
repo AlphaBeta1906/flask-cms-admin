@@ -1,0 +1,21 @@
+{% extends "./base.jinja" %}
+{% block title %}Update tag{% endblock %}
+{% block content %}
+    <div class="card shadow container my-3">
+        <h2 class="py-2">Create post</h2>
+        <form method="post" accept="UTF-8" enctype="multipart/form-data" action="{{"admin.update_tag"|url(id=tag.id)}}">
+            {% include "./components/error.jinja"%}
+            {% for form in forms if form.id != "csrf_token" %}
+                <div class="mb-3">
+                    <label class="form-label">
+                        {{form.label if form.id != "submit" and form.id != "add" and form.id != "hidden" else ""}}
+                    </label> 
+                    {{form}}
+                </div>
+            {% endfor %}
+        </form>
+    </div>
+    <script>
+        $("#add").val("Update tag")
+    </script>
+{% endblock %}
