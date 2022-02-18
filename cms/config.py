@@ -12,6 +12,7 @@ class Config(object):
     RECAPTCHA_PUBLIC_KEY = "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
     RECAPTCHA_PRIVATE_KEY = "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe"
     WTF_CSRF_ENABLED = False
+    # media path
     IMAGE_COVER_PATH = os.path.join(basedir, "static/img_cover")
     IMAGE_UPLOAD_PATH = os.path.join(basedir, "static/blog_image")
 
