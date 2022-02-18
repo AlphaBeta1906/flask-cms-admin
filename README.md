@@ -92,3 +92,9 @@ flask-cms-admin is only for back end and you can connect to the front end with r
    GET /t/<tag>?page={n}
    ```
    get blogs categorize by tags and if page query is not none it will return 10 blogs per page else it will return all blogs categorize by tags
+
+
+## Creating content
+if you want to start creating content you need login first wich by default the route is `/login`,and then you need to inserting username and password you make when running command `add_admin`,after the login success you can start writing content by clicking `new blog` button
+
+note: in this project the default editor is tinymce,but maybe you can change later whatever you want
