@@ -57,20 +57,38 @@ flask run
 ```
 
 ## Endpoint
-flask-cms-admin is only for back end and you can connect to front end with rest api,wich can be accesed by following endpoint:
+flask-cms-admin is only for back end and you can connect to the front end with rest api,wich can be accesed by following endpoint:
+
+*note: the rest api prefix is `/api/v1`*
+
 
 **GET**
 1. ```bash
-    GET /api/v1
+    GET /
     ```
     and
     ```bash
-    GET /api/v1/blogs
+    GET /blogs
     ```
     get all blogs
 
 2. ```bash
-    GET /api/v1/blogs?page={n}
+    GET /blogs?page={n}
     ```
     get blogs by page(5 blog per page)  
     `n` = page number
+
+3. ```bash
+   GET /read/<param>
+   ```
+   `param` can be blog id or blog slug/blog title with `-` instead of spaces
+
+4. ```bash
+   GET /t?page={n}
+   ```
+   get tags by page if page query string is not none it will return 10 tags per page else it will return all tags
+
+5. ```bash
+   GET /t/<tag>?page={n}
+   ```
+   get blogs categorize by tags and if page query is not none it will return 10 blogs per page else it will return all blogs categorize by tags
