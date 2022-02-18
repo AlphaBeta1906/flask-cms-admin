@@ -108,21 +108,22 @@ class Blog(db.Model, BaseId):
         return self.blogs_schema.dump(_all)
 
     def get_one(self, param, parse=True):
-        blog = None
+        blog = self.query.filter_by(slug=param).first_or_404()
         if isinstance(param, int) or param.isnumeric():
             id = int(param)
             blog = self.query.filter_by(id=id).first_or_404()
-        else:
-            blog = self.query.filter_by(slug=param).first_or_404()
 
         if not parse:
             return blog
         return self.blog_schema.dump(blog)
 
-    def get_some(self, limit=5, offset=0, show_hidden=False):
+    def get_blog_paged(self, limit=5, offset=0, show_hidden=False):
         blogs = self.query.filter_by(hidden=False).offset(offset).limit(limit).all()
         if show_hidden:
             blogs = self.query.offset(offset).limit(limit).all()
+        if len(blogs) <= 0:
+            abort(404)
+        
         return self.blogs_schema.dump(blogs)
 
     def get_all_by_tag(self, tag, show_hidden=False, parse=True):
