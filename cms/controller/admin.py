@@ -24,6 +24,7 @@ def dashboard():
 
 
 @admin.delete("/delete_tag/<int:id>")
+@is_admin
 def delete_tag(id):
     tags = Tag()
     tags.delete_tag(id)
@@ -31,6 +32,7 @@ def delete_tag(id):
 
 
 @admin.route("/update_tag/<int:id>", methods=["GET", "POST"])
+@is_admin
 def update_tag(id):
     forms = TagForm(request.form)
     tag = Tag().get_one(id)
