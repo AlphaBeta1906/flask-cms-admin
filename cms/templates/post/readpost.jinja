@@ -16,10 +16,12 @@
             <img src="{{blog.image|static}}" class="relative  img-fluid shadow my-3" style="height: 340px;width: 100% ;bottom: -5px;border-radius: 2rem;"/>
         {% endif %}
         <hr>
-        {{blog.content|safe}}
+        <div class="content">
+            {{blog.content|safe}}
+        </div>
     </div>
     <style>
-        img{
+        .content img{
             width: 100%;
         }
     </style>
