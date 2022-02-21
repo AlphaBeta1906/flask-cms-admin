@@ -100,7 +100,7 @@ def edit_blog(id):
     return render_template("post/editpost.jinja", forms=forms, blog=blog)
 
 
-@post.get("/read/<int:id>")
+@post.get("/preview/<int:id>")
 @is_admin
 def read(id):
     blog = Blog().get_one(id, parse=False)
