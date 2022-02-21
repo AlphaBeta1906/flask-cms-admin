@@ -21,7 +21,7 @@ def read(param):
 def blogs():
     pages = 1 if not request.args.get("page") else int(request.args.get("page"))
     blog = Blog()
-    return jsonify(blogs=blog.get_blog_paged(show_hidden=True, offset=get_start(pages)))
+    return jsonify(blogs=blog.get_some(show_hidden=True, offset=get_start(pages)))
 
 
 @api.get("/t", defaults={"tag": None})
